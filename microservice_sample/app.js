@@ -26,17 +26,22 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //Database connection
 app.use(function(req, res, next){
-	global.connection = mysql.createConnection({
-	  	host     : 'localhost',
-      user     : 'root',
-      password : 'Password@123',
-  		database : 'mydatabase'
-	});
+var connection = mysql.createConnection({
+	  	host     : 'mysqlserver48.mysql.database.azure.com',
+      user     : 'satheesh@mysqlserver48',
+      password : 'MacBookPro@123',
+      database : 'mydatabase',
+      port: 3306,
+      insecureAuth:true
+});
 	connection.connect();
 	next();
 });
 app.use('/', index);
 app.use('/api/v1/customers', customers);
+//var conn = mysql.createConnection({host: "mysqlserver48.mysql.database.azure.com", 
+//user: "satheesh@mysqlserver48", password: {your_password}, database: {your_database}, 
+//port: 3306, ssl:{ca:fs.readFileSync({ca-cert filename})}});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -44,9 +49,6 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
-
-
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
